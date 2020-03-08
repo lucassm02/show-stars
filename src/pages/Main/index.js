@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
-import { Keyboard } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import api from '../../services/api';
+import AsyncStorage from '@react-native-community/async-storage';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Keyboard } from 'react-native';
+import PropTypes from 'prop-types';
 
 import {
     Container,
@@ -18,10 +20,17 @@ import {
     ProfileButtonText,
 } from './styles';
 
-export default function Main() {
+export default function Main(props) {
+    const propTypes = {
+        navigation: PropTypes.shape({
+            navigate: PropTypes.func,
+        }).isRequired,
+    };
+
     const [newUser, setNewUser] = useState(null);
     const [users, setUsers] = useState([]);
 
+    //Buscando dados salvos ao iniciar
     useEffect(() => {
         //UseEffect não pode receber função assíncrona, usando função imediata.
         (async () => {
@@ -30,10 +39,18 @@ export default function Main() {
         })();
     }, []);
 
+    //Atualizando dados do banco
     useEffect(() => {
         AsyncStorage.setItem('users', JSON.stringify(users));
     }, [users]);
 
+    const handlerNavigate = (screen, data) => {
+        const { navigation } = props;
+
+        navigation.navigate(screen, { data });
+    };
+
+    //Adicionando dados em memória
     const handlerSubmit = async () => {
         const response = await api.get(`/users/${newUser}`);
 
@@ -74,7 +91,9 @@ export default function Main() {
                         <Avatar source={{ uri: item.avatar }} />
                         <Name>{item.name}</Name>
                         <Bio>{item.bio}</Bio>
-                        <ProfileButton>
+                        <ProfileButton
+                            onPress={() => handlerNavigate('Usuários', item)}
+                        >
                             <ProfileButtonText>Ver Perfil</ProfileButtonText>
                         </ProfileButton>
                     </User>
