@@ -16,7 +16,12 @@ export default function Routes() {
                 initialRouteName="Inicio"
                 screenOptions={{
                     headerTintColor: 'white',
-                    headerStyle: { backgroundColor: 'orange' },
+                    headerTitleAlign: 'center',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                    },
+                    headerBackTitle: false,
+                    headerStyle: { backgroundColor: '#7159c1' },
                 }}
             >
                 <Stack.Screen name="Inicio" component={Main} />
