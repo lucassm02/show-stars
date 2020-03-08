@@ -13,7 +13,7 @@ export default function Routes() {
     return (
         <NavigationContainer>
             <Stack.Navigator
-                initialRouteName="Inicio"
+                initialRouteName="Usuários"
                 screenOptions={{
                     headerTintColor: 'white',
                     headerTitleAlign: 'center',
@@ -24,8 +24,8 @@ export default function Routes() {
                     headerStyle: { backgroundColor: '#7159c1' },
                 }}
             >
-                <Stack.Screen name="Inicio" component={Main} />
-                <Stack.Screen name="Usuários" component={User} />
+                <Stack.Screen name="Usuários" component={Main} />
+                <Stack.Screen name="Perfil" component={User} />
             </Stack.Navigator>
         </NavigationContainer>
     );

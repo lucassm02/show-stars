@@ -4,7 +4,6 @@ import api from '../../services/api';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Keyboard } from 'react-native';
-import PropTypes from 'prop-types';
 
 import {
     Container,
@@ -20,13 +19,7 @@ import {
     ProfileButtonText,
 } from './styles';
 
-export default function Main(props) {
-    const propTypes = {
-        navigation: PropTypes.shape({
-            navigate: PropTypes.func,
-        }).isRequired,
-    };
-
+export default function Main({ navigation }) {
     const [newUser, setNewUser] = useState(null);
     const [users, setUsers] = useState([]);
 
@@ -45,8 +38,6 @@ export default function Main(props) {
     }, [users]);
 
     const handlerNavigate = (screen, data) => {
-        const { navigation } = props;
-
         navigation.navigate(screen, { data });
     };
 
@@ -92,7 +83,7 @@ export default function Main(props) {
                         <Name>{item.name}</Name>
                         <Bio>{item.bio}</Bio>
                         <ProfileButton
-                            onPress={() => handlerNavigate('Usuários', item)}
+                            onPress={() => handlerNavigate('Perfil', item)}
                         >
                             <ProfileButtonText>Ver Perfil</ProfileButtonText>
                         </ProfileButton>
