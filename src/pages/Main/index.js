@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Keyboard } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import api from '../../services/api';
@@ -20,6 +21,18 @@ import {
 export default function Main() {
     const [newUser, setNewUser] = useState(null);
     const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        //UseEffect não pode receber função assíncrona, usando função imediata.
+        (async () => {
+            const userList = await AsyncStorage.getItem('users');
+            if (userList) setUsers(JSON.parse(userList));
+        })();
+    }, []);
+
+    useEffect(() => {
+        AsyncStorage.setItem('users', JSON.stringify(users));
+    }, [users]);
 
     const handlerSubmit = async () => {
         const response = await api.get(`/users/${newUser}`);
